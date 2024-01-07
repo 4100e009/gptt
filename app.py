@@ -16,7 +16,8 @@ app = Flask(__name__)
 # 從環境變量獲取 LINE 和 OpenAI 的設定值
 line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
-openai.client = os.getenv('OPENAI_API_KEY')
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
