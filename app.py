@@ -38,18 +38,20 @@ def handle_message(event):
 
     # 使用 OpenAI GPT-4 來生成回應
     try:
-        stream = openai.chat.completions.create(
+        stream = openai.ChatCompletion.create(
             model="gpt-4",
-            
             messages=[
                 {"role": "system", "content": "用中文回答"},
                 {"role": "user", "content": user_message}],
             stream=True,
         )
+        reply_text = None
         for chunk in stream:
-             if chunk.choices[0].delta.content is not None:
+            if chunk.choices[0].delta.content is not None:
                 reply_text = chunk.choices[0].delta.content
-                break 
+                break  # 只使用第一個有效回應
+        if reply_text is None:
+            reply_text = "沒有獲得回應。"
     except Exception as e:
         app.logger.error(f"Error in OpenAI response: {e}")
         reply_text = "抱歉，我無法回答這個問題。"
@@ -58,6 +60,7 @@ def handle_message(event):
         event.reply_token,
         TextSendMessage(text=reply_text)
     )
+
 
 if __name__ == "__main__":
     app.run()
