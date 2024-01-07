@@ -47,8 +47,9 @@ def handle_message(event):
             stream=True,
         )
         for chunk in stream:
-            if chunk.choices[0].delta.content is not None:
-                reply_text = chunk.choices[0].delta.content, end=""
+             if chunk.choices[0].delta.content is not None:
+                reply_text = chunk.choices[0].delta.content
+                break 
     except Exception as e:
         app.logger.error(f"Error in OpenAI response: {e}")
         reply_text = "抱歉，我無法回答這個問題。"
