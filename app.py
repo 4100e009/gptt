@@ -16,7 +16,7 @@ app = Flask(__name__)
 # 從環境變量獲取 LINE 和 OpenAI 的設定值
 line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
-client = os.getenv('OPENAI_API_KEY')
+openai.client = os.getenv('OPENAI_API_KEY')
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -37,7 +37,7 @@ def handle_message(event):
 
     # 使用 OpenAI GPT-4 來生成回應
     try:
-        stream = client.chat.completions.create(
+        stream = openai.chat.completions.create(
             model="gpt-4",
             
             messages=[
