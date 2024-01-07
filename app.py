@@ -37,7 +37,7 @@ def handle_message(event):
 
     # 使用 OpenAI GPT-4 來生成回應
     try:
-        stream = client.ChatCompletion.create(
+        stream = client.chat.completions.create(
             model="gpt-4",
             
             messages=[
